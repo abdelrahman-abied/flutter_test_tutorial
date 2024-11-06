@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
+import '../../data_retirver.dart';
 import 'api_service_test.mocks.dart';
 
 // class MockDio extends Mock implements Dio {}
@@ -17,23 +18,24 @@ void main() {
     apiService = ApiService(dio);
   });
   group('ApiService', () {
-    final mockPosts = [
-      {
-        "userId": 1,
-        "id": 1,
-        "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
-        "body":
-            "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
-      },
-      {
-        "userId": 1,
-        "id": 2,
-        "title": "qui est esse",
-        "body":
-            "est rerum tempore vitae\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla"
-      },
-    ];
+    // final mockPosts = [
+    //   {
+    //     "userId": 1,
+    //     "id": 1,
+    //     "title": "sunt aut facere repellat provident occaecati excepturi optio reprehenderit",
+    //     "body":
+    //         "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto"
+    //   },
+    //   {
+    //     "userId": 1,
+    //     "id": 2,
+    //     "title": "qui est esse",
+    //     "body":
+    //         "est rerum tempore vitae\nsequi sint nihil reprehenderit dolor beatae ea dolores neque\nfugiat blanditiis voluptate porro vel nihil molestiae ut reiciendis\nqui aperiam non debitis possimus qui neque nisi nulla"
+    //   },
+    // ];
     test('getPosts', () async {
+      final mockPosts = await getPosts();
       // Arrange
       when(dio.get('https://jsonplaceholder.typicode.com/posts')).thenAnswer(
         (_) async => Response(
@@ -44,9 +46,9 @@ void main() {
         ),
       );
       // Act
-      await apiService.getPosts();
+      final posts = await apiService.getPosts();
       // Assert
-      // expect(posts.length, 10);
+      expect(posts.length, 100);
     });
     test('getPosts - failure (status code != 200)', () async {
       // Arrange
